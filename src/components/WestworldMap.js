@@ -2,13 +2,15 @@ import React from 'react';
 import { Segment } from 'semantic-ui-react';
 
 
-const WestworldMap = () => {
+class WestworldMap extends React.Component {
 
-  return (
-    <Segment id="map" >
-      {/* What should we render on the map? */}
-    </Segment>
-  )
+  render() {
+    return (
+      <Segment id="map" >
+        {/* What should we render on the map? */}
+      </Segment>
+    )
+  }
 }
 
 export default WestworldMap

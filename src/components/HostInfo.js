@@ -30,11 +30,22 @@ class HostInfo extends Component {
   }
 
   render(){
+    const areas = this.props.getAreas();
+    // console.log(areas)
+    // areas.then(a => console.log(a))
+    const areasProcessed = areas.map(area => {
+      return { key: area.name, text: area.name, value: area.name}
+    })
+    // this.setState({options: areasProcessed});
+
+    const thisHost = this.props.host.props.host
+    // console.log(this.props);
+    console.log(thisHost)
     return (
       <Grid>
         <Grid.Column width={6}>
           <Image
-            src={ /* pass in the right image here */ }
+            src={ thisHost.imageUrl }
             floated='left'
             size='small'
             className="hostImg"
@@ -44,16 +55,16 @@ class HostInfo extends Component {
           <Card>
             <Card.Content>
               <Card.Header>
-                {"Bob"} | { true ? <Icon name='man' /> : <Icon name='woman' />}
+                {thisHost.firstName} | { thisHost.gender === "Male" ? <Icon name='man' /> : <Icon name='woman' />}
                 { /* Think about how the above should work to conditionally render the right First Name and the right gender Icon */ }
               </Card.Header>
               <Card.Meta>
                 <Radio
                   onChange={this.toggle}
                   label={"Active"}
-                  {/* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */}
+                  /* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */
                   checked={true}
-                  {/* Checked takes a boolean and determines what position the switch is in. Should it always be true? */}
+                  /* Checked takes a boolean and determines what position the switch is in. Should it always be true? */
                   slider
                 />
               </Card.Meta>
@@ -62,8 +73,8 @@ class HostInfo extends Component {
               Current Area:
               <Dropdown
                 onChange={this.handleChange}
-                value={this.state.value}
-                options={this.state.options}
+                value={thisHost.area}
+                options={areasProcessed}
                 selection
               />
             </Card.Content>
