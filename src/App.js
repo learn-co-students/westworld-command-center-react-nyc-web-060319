@@ -82,6 +82,9 @@ class App extends Component {
       <Segment id='app'>
         {/* What components should go here? Check out Checkpoint 1 of the Readme if you're confused */}
         <WestworldMap getHosts={this.getHosts}/>
+        <br />
+        <br />
+        <br />
         <Headquarters
           getHosts={this.getHosts}
           coldStorageClickHandler={this.coldStorageClickHandler.bind(this)}
