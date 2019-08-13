@@ -23,10 +23,15 @@ class HostInfo extends Component {
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
+    console.log(value);
   }
 
   toggle = () => {
     console.log("The radio button fired");
+  }
+
+  thisHostFromProps = () => {
+    return this.props.host.props.host;
   }
 
   render(){
@@ -37,8 +42,8 @@ class HostInfo extends Component {
       return { key: area.name, text: area.name, value: area.name}
     })
     // this.setState({options: areasProcessed});
+    const thisHost = this.thisHostFromProps();
 
-    const thisHost = this.props.host.props.host
     // console.log(this.props);
     console.log(thisHost)
     return (

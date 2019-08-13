@@ -1,4 +1,4 @@
-/* .area{
+.area{
   border: 2px solid red;
   position: absolute;
 }
@@ -65,4 +65,4 @@
   min-height: 175px;
   max-height: 175px;
   height: 100%;
-} */
+}

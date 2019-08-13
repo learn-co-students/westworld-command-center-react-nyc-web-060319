@@ -21,7 +21,7 @@ class App extends Component {
 
   async componentDidMount() {
     const newHosts = await this.fetchHosts();
-    console.log(newHosts);
+    // console.log(newHosts);
     this.setState({hosts: newHosts});
     this.fetchAreas();
   }
@@ -58,7 +58,7 @@ class App extends Component {
 
   coldStorageClickHandler = (event, data, item) => {
     // console.log("not implemented yet")
-    console.log(data);
+    // console.log(data);
     // const thisID = data.id;
     // const clickedItem = this.state.hosts
     // const hosts = this.getHosts()
@@ -81,7 +81,7 @@ class App extends Component {
     return (
       <Segment id='app'>
         {/* What components should go here? Check out Checkpoint 1 of the Readme if you're confused */}
-        <WestworldMap getHosts={this.getHosts}/>
+        <WestworldMap getHosts={this.getHosts} getAreas={this.getAreas.bind(this)} coldStorageClickHandler={this.coldStorageClickHandler.bind(this)}/>
         <br />
         <br />
         <br />
