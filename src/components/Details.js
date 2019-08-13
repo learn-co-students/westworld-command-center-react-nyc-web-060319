@@ -7,12 +7,16 @@ class Details extends React.Component {
   // We'll render the logo if no host is selected. But if a host does get selected....
   // Watch the video to see how this works in the app.
 
-
-  state = {selected: false}
   renderSomething = () => {
     
     return (this.props.getSelected() ?
-      <HostInfo host={this.props.getSelected()} getAreas={this.props.getAreas}/> : 
+      <HostInfo
+        // key={`host-detail-${this.props.getSelected().name}`}
+        host={this.props.getSelected()}
+        getAreas={this.props.getAreas}
+        moveHost={this.props.moveHost}
+        toggleActive={this.props.toggleActive}
+      /> : 
       <Image size='medium' src={Images.westworldLogo}/>
       )
   }

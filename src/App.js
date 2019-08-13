@@ -51,10 +51,58 @@ class App extends Component {
   //   return this.state.selected;
   // }
 
+  getActiveHosts = () => {
+    const hosts = this.getHosts();
+    return hosts.filter(host => {
+      return host.active
+    })
+  }
+
+  getInactiveHosts = () => {
+    return this.getHosts().filter(host => {
+      return !(host.active);
+    })
+  }
+
   getSelected = () => {
     return this.state.selected
   }
 
+  moveHost = (host, targetArea) => {
+    console.log("moving host: ", host);
+    console.log("to area: ", targetArea);
+    const hosts = this.getHosts();
+    const found = hosts.findIndex(hostInHosts => {
+      return hostInHosts.id === host.id;
+    })
+    if (found !== -1) {
+      hosts[found].area = targetArea;
+      console.log("new host state: ", hosts[found]);
+      this.setState({hosts});
+    }
+    else {
+      console.error("hmmm.");
+      debugger;
+    }
+  }
+
+  toggleActive = (host, newActive) => {
+    console.log("setting host: ", host);
+    console.log("to active state: ", newActive);
+    const hosts = this.getHosts();
+    const found = hosts.findIndex(hostInHosts => {
+      return hostInHosts.id === host.id;
+    })
+    if (found !== -1) {
+      hosts[found].active = newActive;
+      console.log("new host state: ", hosts[found]);
+      this.setState({hosts});
+    }
+    else {
+      console.error("hmmm.");
+      debugger;
+    }
+  }
 
   coldStorageClickHandler = (event, data, item) => {
     // console.log("not implemented yet")
@@ -81,15 +129,21 @@ class App extends Component {
     return (
       <Segment id='app'>
         {/* What components should go here? Check out Checkpoint 1 of the Readme if you're confused */}
-        <WestworldMap getHosts={this.getHosts} getAreas={this.getAreas.bind(this)} coldStorageClickHandler={this.coldStorageClickHandler.bind(this)}/>
+        <WestworldMap
+          getActiveHosts={this.getActiveHosts.bind(this)}
+          getAreas={this.getAreas.bind(this)}
+          coldStorageClickHandler={this.coldStorageClickHandler.bind(this)}
+        />
         <br />
         <br />
         <br />
         <Headquarters
-          getHosts={this.getHosts}
+          getInactiveHosts={this.getInactiveHosts.bind(this)}
           coldStorageClickHandler={this.coldStorageClickHandler.bind(this)}
           getSelected={this.getSelected.bind(this)}
           getAreas={this.getAreas.bind(this)}
+          moveHost={this.moveHost}
+          toggleActive={this.toggleActive}
           />
       </Segment>
     )

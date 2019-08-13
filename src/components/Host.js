@@ -16,6 +16,7 @@ class Host extends React.Component {
     return(
     <Card
       className={`host ${this.state.selected ? 'selected' : ''}`}
+      // key={`host-card-${this.props.id}`}
       /* NOTE: The className "host selected" renders a different style than simply "host". */
       onClick={this.thisClick}
       image={this.props.host.imageUrl}

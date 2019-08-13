@@ -12,7 +12,7 @@ class ColdStorage extends React.Component {
   // state = {hosts: []};
 
   renderHosts = () => {
-    const hosts = this.props.getHosts();
+    const hosts = this.props.getInactiveHosts();
     // console.log(hosts);
     if (hosts.length === 0) {
       console.log("no hosts");

@@ -4,12 +4,17 @@ import { Radio, Icon, Card, Grid, Image, Dropdown, Divider } from 'semantic-ui-r
 
 
 class HostInfo extends Component {
+  thisHostFromProps = () => {
+    return this.props.host.props.host;
+  }
+
   state = {
     options: [
       {key: "some_area", text: "Some Area", value: "some_area"},
       {key: "another_area", text: "Another Area", value: "another_area"}
     ],
-    value: "some_area"
+    value: "some_area",
+    checked: this.thisHostFromProps().active
     // This state is just to show how the dropdown component works.
     // Options have to be formatted in this way (array of objects with keys of: key, text, value)
     // Value has to match the value in the object to render the right text.
@@ -23,16 +28,21 @@ class HostInfo extends Component {
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
-    console.log(value);
+    // console.log(value);
+    if (this.state.value !== value) {
+      const host = this.thisHostFromProps();
+      this.props.moveHost(host, value);  
+    }
   }
 
-  toggle = () => {
+  toggle = (e, data) => {
     console.log("The radio button fired");
+    const value = !(this.state.checked);
+    const host = this.thisHostFromProps();
+    this.setState({checked: value});
+    this.props.toggleActive(host, value);
   }
 
-  thisHostFromProps = () => {
-    return this.props.host.props.host;
-  }
 
   render(){
     const areas = this.props.getAreas();
@@ -45,7 +55,7 @@ class HostInfo extends Component {
     const thisHost = this.thisHostFromProps();
 
     // console.log(this.props);
-    console.log(thisHost)
+    // console.log(thisHost)
     return (
       <Grid>
         <Grid.Column width={6}>
@@ -68,7 +78,7 @@ class HostInfo extends Component {
                   onChange={this.toggle}
                   label={"Active"}
                   /* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */
-                  checked={true}
+                  checked={this.state.checked}
                   /* Checked takes a boolean and determines what position the switch is in. Should it always be true? */
                   slider
                 />

@@ -16,7 +16,10 @@ class Headquarters extends Component {
     return(
       <Grid celled='internally'>
         <Grid.Column width={8}>
-        <ColdStorage coldStorageClickHandler={this.props.coldStorageClickHandler} getHosts={this.props.getHosts}/>
+        <ColdStorage
+          coldStorageClickHandler={this.props.coldStorageClickHandler}
+          getInactiveHosts={this.props.getInactiveHosts}
+        />
         {/* Something goes here.... */}
 
         </Grid.Column>
@@ -24,6 +27,8 @@ class Headquarters extends Component {
           <Details 
             getSelected={this.props.getSelected}
             getAreas={this.props.getAreas}
+            moveHost={this.props.moveHost}
+            toggleActive={this.props.toggleActive}
             />
         </Grid.Column>
         <Grid.Column width={3}>
