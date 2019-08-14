@@ -68,6 +68,16 @@ class App extends Component {
     return this.state.selected
   }
 
+
+  countInArea = (hosts, area) => {
+    let count = 0;
+    for (let i = 0; i < hosts.length; i++) {
+      if ((hosts[i].active) && (hosts[i].area === area)) {
+        count += 1;
+      }
+    }
+    return count;
+  }
   moveHost = (host, targetArea) => {
     console.log("moving host: ", host);
     console.log("to area: ", targetArea);
@@ -75,15 +85,27 @@ class App extends Component {
     const found = hosts.findIndex(hostInHosts => {
       return hostInHosts.id === host.id;
     })
-    if (found !== -1) {
-      hosts[found].area = targetArea;
-      console.log("new host state: ", hosts[found]);
-      this.setState({hosts});
-    }
-    else {
-      console.error("hmmm.");
+    console.assert(found !== -1);
+    if (found === -1) {
+      console.error("hmmm. Logic error.");
       debugger;
     }
+    // const count = this.countInArea(hosts, targetArea);
+    const area = this.getAreas().find(area => area.name === targetArea);
+    console.assert(area !== undefined);
+    if (area === undefined) {
+      console.error("Hmm. Logic error.");
+    }
+    hosts[found].area = targetArea;
+    console.log("new host state: ", hosts[found]);
+    this.setState({hosts});
+    // if (area.limit > count) {
+    //   return true;
+    // }
+    // else {
+    //   alert(`Host limit in ${targetArea} reached. Host not moved.`);
+    //   return false;
+    // }
   }
 
   toggleActive = (host, newActive) => {
@@ -93,15 +115,34 @@ class App extends Component {
     const found = hosts.findIndex(hostInHosts => {
       return hostInHosts.id === host.id;
     })
-    if (found !== -1) {
+    console.assert(found !== -1);
+    if (found === -1) {
+      console.error("hmmm. Logic error.");
+      debugger;
+    }
+    const count = this.countInArea(hosts, host.area);
+    const area = this.getAreas().find(area => area.name === host.area);
+    console.assert(area !== undefined);
+    if (area === undefined) {
+      console.error("Hmm. Logic error.");
+    }
+    if (area.limit > count) {
+      // hosts[found].area = targetArea;
+      // console.log("new host state: ", hosts[found]);
+      // this.setState({hosts});
+      // return true;
       hosts[found].active = newActive;
       console.log("new host state: ", hosts[found]);
       this.setState({hosts});
-    }
+      }
     else {
-      console.error("hmmm.");
-      debugger;
+      alert(`Host limit in ${host.area} reached. Host not moved.`);
+      return false;
     }
+
+    // hosts[found].active = newActive;
+    // console.log("new host state: ", hosts[found]);
+    // this.setState({hosts});
   }
 
   coldStorageClickHandler = (event, data, item) => {
@@ -111,11 +152,12 @@ class App extends Component {
     // const clickedItem = this.state.hosts
     // const hosts = this.getHosts()
     // const thisSelected = hosts.findIndex(host => host.id === thisID);
-  
-    if (this.state.selected != null) {
+    // console.log(item);
+    // console.log(this.state.selected)
+    // if (this.state.selected != null) {
       // const oldSelected = hosts.findIndex(host => this.state.selected.props.host.id === host.id);
-      this.state.selected.setState({selected: false})
-    }
+      // this.state.selected.setState({selected: false})
+    // }
     this.setState({
       selected: item,
     })
@@ -144,6 +186,7 @@ class App extends Component {
           getAreas={this.getAreas.bind(this)}
           moveHost={this.moveHost}
           toggleActive={this.toggleActive}
+          host={this.state.selected}
           />
       </Segment>
     )

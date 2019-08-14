@@ -8,14 +8,16 @@ class Details extends React.Component {
   // Watch the video to see how this works in the app.
 
   renderSomething = () => {
-    
-    return (this.props.getSelected() ?
+    console.log("rendering details, props.checked: ", this.props.checked);
+    return ((this.props.host !== null) ?
       <HostInfo
         // key={`host-detail-${this.props.getSelected().name}`}
-        host={this.props.getSelected()}
+        host={this.props.host}
         getAreas={this.props.getAreas}
         moveHost={this.props.moveHost}
         toggleActive={this.props.toggleActive}
+        // host={this.props.selected}
+        checked={this.props.checked}
       /> : 
       <Image size='medium' src={Images.westworldLogo}/>
       )

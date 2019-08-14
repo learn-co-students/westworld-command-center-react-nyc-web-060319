@@ -21,7 +21,9 @@ class ColdStorage extends React.Component {
 
     return hosts.map(host => {
       // console.log(host.id);
-      return <Host key={`host-${host.id}`} host={host} clickHandler={this.props.coldStorageClickHandler} />
+      return <Host key={`host-cold-storage-${host.id}`} host={host} clickHandler={(event, data, item) => {
+        this.props.coldStorageClickHandler(event, data, item);
+      }} />
     });
   }
 /* Cold Storage contains hosts....but how? Directly? Or is there something else we could use to contain them... */

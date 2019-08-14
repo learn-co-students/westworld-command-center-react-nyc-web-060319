@@ -13,6 +13,7 @@ class Headquarters extends Component {
   // }
 
   render(){
+    console.log("headquarters render host: ", (this.props.host !== null) ? this.props.host.props.host : null)
     return(
       <Grid celled='internally'>
         <Grid.Column width={8}>
@@ -29,6 +30,9 @@ class Headquarters extends Component {
             getAreas={this.props.getAreas}
             moveHost={this.props.moveHost}
             toggleActive={this.props.toggleActive}
+            host={this.props.host}
+            // madness below.
+            checked={(this.props.host !== null) ? this.props.host.props.host.active : false}
             />
         </Grid.Column>
         <Grid.Column width={3}>

@@ -5,7 +5,9 @@ import Host from './Host'
 
 function renderHosts(hosts, coldStorageClickHandler) {
   return hosts.map(host => {
-    return <Host key={`host-${host.id}`} host={host} clickHandler={coldStorageClickHandler} />
+    return <Host key={`host-area-${host.id}`} host={host} clickHandler={(event, data, item) => {
+      coldStorageClickHandler(event, data, item);
+    }} />
   })
 }
 

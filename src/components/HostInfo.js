@@ -8,13 +8,19 @@ class HostInfo extends Component {
     return this.props.host.props.host;
   }
 
+  returnChecked = () => {
+    console.log("initializing state, checked: ", this.props.checked);
+    return this.props.checked;
+  }
+
   state = {
     options: [
       {key: "some_area", text: "Some Area", value: "some_area"},
       {key: "another_area", text: "Another Area", value: "another_area"}
     ],
     value: "some_area",
-    checked: this.thisHostFromProps().active
+    // checked: this.thisHostFromProps().active
+    checked: this.returnChecked()
     // This state is just to show how the dropdown component works.
     // Options have to be formatted in this way (array of objects with keys of: key, text, value)
     // Value has to match the value in the object to render the right text.
@@ -30,21 +36,25 @@ class HostInfo extends Component {
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
     // console.log(value);
     if (this.state.value !== value) {
+      console.log(`changing ${this.state.value} to ${value}`);
       const host = this.thisHostFromProps();
-      this.props.moveHost(host, value);  
+      this.props.moveHost(host, value);
+      this.setState({value: value})
     }
   }
 
   toggle = (e, data) => {
-    console.log("The radio button fired");
-    const value = !(this.state.checked);
+    console.log("The radio button fired, data:", data);
+    console.log(this.state);
+    // const value = !(this.state.checked);
     const host = this.thisHostFromProps();
-    this.setState({checked: value});
-    this.props.toggleActive(host, value);
+    this.setState({checked: data.checked});
+    this.props.toggleActive(host, data.checked);
   }
 
 
   render(){
+    console.log("rendering hostInfo 1/2, checked: ", this.state.checked);
     const areas = this.props.getAreas();
     // console.log(areas)
     // areas.then(a => console.log(a))
@@ -56,6 +66,7 @@ class HostInfo extends Component {
 
     // console.log(this.props);
     // console.log(thisHost)
+    console.log("rendering hostInfo 2/2, checked: ", this.state.checked);
     return (
       <Grid>
         <Grid.Column width={6}>
@@ -75,7 +86,7 @@ class HostInfo extends Component {
               </Card.Header>
               <Card.Meta>
                 <Radio
-                  onChange={this.toggle}
+                  onClick={this.toggle.bind(this)}
                   label={"Active"}
                   /* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */
                   checked={this.state.checked}
