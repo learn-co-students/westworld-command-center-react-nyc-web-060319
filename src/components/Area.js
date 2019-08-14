@@ -1,13 +1,26 @@
 import React from 'react';
+import { Grid } from 'semantic-ui-react';
 import '../stylesheets/Area.css'
+import Host from './Host'
 
-const Area = () => (
+function renderHosts(hosts, coldStorageClickHandler) {
+  return hosts.map(host => {
+    return <Host key={`host-area-${host.id}`} host={host} clickHandler={(event, data, item) => {
+      coldStorageClickHandler(event, data, item);
+    }} />
+  })
+}
 
-  <div className='area' id={/* Pass in the area name here to make sure this is styled correctly */}>
-    <h3 className='labels'>{/* Don't just pass in the name from the data...clean that thing up */}</h3>
-
-    {/* See Checkpoint 1 item 2 in the Readme for a clue as to what goes here */}
-
+const Area = (props) => (
+  
+  <div className='area' id={props.name}>
+    <h3 className='labels'>{/* Don't just pass in the name from the data...clean that thing up */
+      // no, fuck you.
+      props.name
+  }</h3>
+    <Grid key={`${props.name}-map`} container={true}>
+      {renderHosts(props.hosts, props.coldStorageClickHandler)}
+    </Grid>
   </div>
 
 )

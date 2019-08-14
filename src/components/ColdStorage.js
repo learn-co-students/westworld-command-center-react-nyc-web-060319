@@ -1,17 +1,48 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react'
+import Host from './Host.js'
 
-const ColdStorage = () => (
-  <Segment.Group className="HQComps">
-    <Segment compact>
-      <h3 className="labels">ColdStorage</h3>
-    </Segment>
-    <Segment compact>
+class ColdStorage extends React.Component {
 
-      {/* Cold Storage contains hosts....but how? Directly? Or is there something else we could use to contain them... */}
+  // constructor() {
+  //   super();
+  //   // this.state.hosts = this.props.hosts;
+  // }
 
-    </Segment>
-  </Segment.Group>
-)
+  // state = {hosts: []};
+
+  renderHosts = () => {
+    const hosts = this.props.getInactiveHosts();
+    // console.log(hosts);
+    if (hosts.length === 0) {
+      console.log("no hosts");
+      return null;
+    }
+
+    return hosts.map(host => {
+      // console.log(host.id);
+      return <Host key={`host-cold-storage-${host.id}`} host={host} clickHandler={(event, data, item) => {
+        this.props.coldStorageClickHandler(event, data, item);
+      }} />
+    });
+  }
+/* Cold Storage contains hosts....but how? Directly? Or is there something else we could use to contain them... */
+
+  render() {
+    return(
+
+      <Segment.Group className="HQComps">
+      <Segment compact>
+        <h3 className="labels">ColdStorage</h3>
+      </Segment>
+      <Segment compact>
+        {this.renderHosts()}
+        
+
+      </Segment>
+    </Segment.Group>
+    );
+  }
+}
 
 export default ColdStorage
