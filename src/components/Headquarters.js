@@ -37,7 +37,7 @@ class Headquarters extends Component {
         </Grid.Column>
         <Grid.Column width={3}>
 
-        <LogPanel />
+        <LogPanel logs={this.props.logs}/>
         {/* and here. Take visual cues from the screenshot/video in the Readme. */}
 
         </Grid.Column>

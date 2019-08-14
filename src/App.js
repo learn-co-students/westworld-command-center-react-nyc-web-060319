@@ -3,6 +3,7 @@ import './stylesheets/App.css'
 import { Segment } from 'semantic-ui-react';
 import WestworldMap from './components/WestworldMap.js'
 import Headquarters from './components/Headquarters.js'
+import { Log } from './services/Log.js'
 
 const SERVER_URL = "http://localhost:4000";
 
@@ -10,7 +11,8 @@ class App extends Component {
 
   state = {
     hosts: [{}],
-    selected: null
+    selected: null,
+    logs: []
   }
 
   async fetchHosts() {
@@ -78,6 +80,13 @@ class App extends Component {
     }
     return count;
   }
+
+  addLog = (log) => {
+    const newLogs = [...this.state.logs];
+    newLogs.push(log);
+    this.setState({logs: newLogs});
+  }
+
   moveHost = (host, targetArea) => {
     console.log("moving host: ", host);
     console.log("to area: ", targetArea);
@@ -99,6 +108,7 @@ class App extends Component {
     hosts[found].area = targetArea;
     console.log("new host state: ", hosts[found]);
     this.setState({hosts});
+    this.addLog(Log.notify(`Host ${host.firstName} to ${targetArea}.`));
     // if (area.limit > count) {
     //   return true;
     // }
@@ -134,9 +144,16 @@ class App extends Component {
       hosts[found].active = newActive;
       console.log("new host state: ", hosts[found]);
       this.setState({hosts});
+      if (newActive) {
+        this.addLog(Log.warn(`Activated ${hosts[found].firstName}.`));
+        }
+      else {
+        this.addLog(Log.notify(`Decommissioned ${hosts[found].firstName}`));
       }
+    }
     else {
       alert(`Host limit in ${host.area} reached. Host not moved.`);
+      this.addLog(Log.error(`Host limit in ${host.area} reached. ${hosts[found].firstName} not moved.`));
       return false;
     }
 
@@ -187,6 +204,7 @@ class App extends Component {
           moveHost={this.moveHost}
           toggleActive={this.toggleActive}
           host={this.state.selected}
+          logs={this.state.logs}
           />
       </Segment>
     )

@@ -23,7 +23,8 @@ class LogPanel extends Component {
     return(
       <Segment className="HQComps" id="logPanel">
         <pre>
-          {this.dummyLogs().map((log, i) => <p key={i} className={log.type}>{log.msg}</p>)}
+          {/* {this.dummyLogs().map((log, i) => <p key={i} className={log.type}>{log.msg}</p>)} */}
+          {this.props.logs.map((log, i) => <p key={i} className={log.type}>{log.msg}</p>)}
         </pre>
         
         {/* Button below is the Activate All/Decommisssion All button */}
